@@ -40,8 +40,9 @@ type FakerUpdate = Update & {
 export default async function run(configPath = './config.yaml') {
   // Get config from arguments
   
+  const absoluteConfigPath = absolutePath(configPath);
   const config = await getConfig(configPath);
-  const allTasks = await loadTasks(config.tasksDir);
+  const allTasks = await loadTasks(config.tasksDir, path.dirname(absoluteConfigPath));
 
   const knex = Knex({
     client: config.client,
@@ -54,9 +55,9 @@ export default async function run(configPath = './config.yaml') {
   }
 }
 
-async function loadTasks(tasksDir = './tasks'): Promise<FileConfig> {
+async function loadTasks(tasksDir = './tasks', configDir = './'): Promise<FileConfig> {
   // Read config.yaml file for knex connection
-  const taskDir = path.resolve(__dirname, tasksDir);
+  const taskDir = absolutePath(tasksDir, configDir);
   const allFiles = await fs.readdir(taskDir);
   const tasks: FileConfig = {};
   for (const file of allFiles) {
@@ -117,6 +118,10 @@ function fakeit(fn: string, args?: Array<any>) {
   }
 }
 
+function absolutePath(filePath: string, from = process.cwd()) {
+  return filePath.startsWith('/') ? filePath : path.resolve(from, filePath);
+}
+
 /**
  *
  * @returns {Promise<{
@@ -124,14 +129,14 @@ function fakeit(fn: string, args?: Array<any>) {
  *  connection: object
  * }>}
  */
-function getConfig(configPath = './config.yaml') {
-  if (configPath.endsWith('.yaml')) {
-    return loadYaml(path.resolve(__dirname, configPath)) as Promise<DbConfig>;
-  } else if(configPath.endsWith('.js')) {
+function getConfig(absoluteConfigPath: string) {
+  if (absoluteConfigPath.endsWith('.yaml')) {
+    return loadYaml(absoluteConfigPath) as Promise<DbConfig>;
+  } else if(absoluteConfigPath.endsWith('.js')) {
     // TODO: Test if this needs default export
-    return require(path.resolve(__dirname, configPath))(process.env) as Promise<DbConfig>;
+    return require(absoluteConfigPath)(process.env) as Promise<DbConfig>;
   } else {
-    throw new Error(`Invalid config file ${configPath}`);
+    throw new Error(`Invalid config file ${absoluteConfigPath}`);
   }
 }
 

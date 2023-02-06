@@ -15,7 +15,7 @@ To configure Db Masker, you'll need to set up the following:
 
 The database connection information in the db-masker-config.yaml file.
 ```yaml
-tasksDir: "./tasks"
+tasksDir: "./tasks" # relative to the config file
 client: "pg"
 connection:
   host: "127.0.0.1"
@@ -56,6 +56,8 @@ namespace:
         fn: "raw" # use the raw sql to update the column
         query: "CONCAT(column_name, ' ', column_name2)"
 ```
+
+[https://fakerjs.dev/api/](https://fakerjs.dev/api/) has a list of all the faker functions that can be used. REMEMBER THE NAMESPACE IS REQUIRED, eg. `internet.email`
 
 ## Usage
 
