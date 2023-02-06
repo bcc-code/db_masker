@@ -1,10 +1,11 @@
 {
-  "name": "db_masker",
+  "name": "@bcc-code/db_masker",
+  "description": "Db Masker is a library for masking database data by performing updates on the data and optionally removing it. The updates and removals are specified in yaml configuration files.",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./lib/index.js",
   "bin": {
-    "db_masker": "./lib/index.js"
+    "db_masker": "lib/index.js"
   },
   "files": [
     "lib"
@@ -24,5 +25,27 @@
     "fs-extra": "^11.1.0",
     "js-yaml": "^4.1.0",
     "knex": "^2.4.2"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcc-code/db_masker.git"
+  },
+  "keywords": [
+    "anonymiser",
+    "anonymizer",
+    "mysql",
+    "postgres",
+    "faker",
+    "knex"
+  ],
+  "author": "Gerard Lamusse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bcc-code/db_masker/issues"
+  },
+  "homepage": "https://github.com/bcc-code/db_masker#readme",
+  "private": false
 }
