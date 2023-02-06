@@ -37,7 +37,7 @@ type FakerUpdate = Update & {
   args?: string[];
 }
 
-async function run(configPath = './config.yaml') {
+export default async function run(configPath = './config.yaml') {
   // Get config from arguments
   
   const config = await getConfig(configPath);
@@ -69,7 +69,7 @@ async function loadTasks(tasksDir = './tasks'): Promise<FileConfig> {
   return tasks;
 }
 
-async function doTasks(
+export async function doTasks(
   knex: IKnex,
   nsTask: NSConfig
 ) {
@@ -144,19 +144,3 @@ async function loadYaml(filename: any) {
   const yamlString = await fs.readFile(filename, 'utf8');
   return jsYaml.load(yamlString) as object;
 }
-
-
-console.log('Starting db masker');
-if (process.argv.length < 3) {
-  console.log('Usage: db-masker <config.yaml>');
-  process.exit(1);
-}
-
-const configPath = process.argv[2];
-Promise.all([run(configPath)]).then(() => {
-  console.log('Thank you for using db-masker');
-  process.exit(0);
-}).catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
