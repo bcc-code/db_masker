@@ -62,7 +62,7 @@ namespace:
 To run Db Masker, run the following command in your terminal:
 
 ```bash
-npx db-masker db-masker-config.yaml
+npx db_masker db-masker-config.yaml
 ```
 
 This will mask the data in your database according to the specifications in the yaml configuration files. The output will be logged to the console, and the process will exit with a status code of 0 on success or 1 on failure.
