@@ -13,7 +13,7 @@ Install the correspond client library to use the database.
 ## Configuring Db Masker
 To configure Db Masker, you'll need to set up the following:
 
-The database connection information in the config.yaml file.
+The database connection information in the db-masker-config.yaml file.
 ```yaml
 tasksDir: "./tasks"
 client: "pg"
@@ -22,6 +22,20 @@ connection:
   user: "user"
   password: "password"
   database: "database"
+```
+
+Alternatively, a js file can be used to configure the database connection. The js file should export a function that returns the configuration object. The function will be passed the environment variable `NODE_ENV` as an argument. This allows you to configure the database connection based on the environment.
+
+```js
+module.exports = (env) => {
+  return {
+    tasksDir: "./tasks",
+    client: "pg",
+    connection: () => {
+      // return connection settings
+    },
+  }
+}
 ```
 
 The data updates and removals in one or more yaml files in the `tasks` directory. Each file corresponds to a namespace, and the data updates and removals are specified by table.

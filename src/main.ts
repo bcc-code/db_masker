@@ -125,7 +125,14 @@ function fakeit(fn: string, args?: Array<any>) {
  * }>}
  */
 function getConfig(configPath = './config.yaml') {
-  return loadYaml(path.resolve(__dirname, configPath)) as Promise<DbConfig>;
+  if (configPath.endsWith('.yaml')) {
+    return loadYaml(path.resolve(__dirname, configPath)) as Promise<DbConfig>;
+  } else if(configPath.endsWith('.js')) {
+    // TODO: Test if this needs default export
+    return require(path.resolve(__dirname, configPath))(process.env) as Promise<DbConfig>;
+  } else {
+    throw new Error(`Invalid config file ${configPath}`);
+  }
 }
 
 /**
