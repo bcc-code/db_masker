@@ -49,20 +49,23 @@ export default async function run(configPath = './config.yaml') {
     connection: config.connection,
   });
 
-  for (const nsTask of Object.keys(allTasks)) {
+  const namespaces = Object.keys(allTasks);
+  console.log(`Found ${namespaces.length} namespaces`);
+
+  for (const nsTask of namespaces) {
     console.log(`Doing tasks for namespace ${nsTask}`);
     await doTasks(knex, allTasks[nsTask]);
   }
 }
 
-async function loadTasks(tasksDir = './tasks', configDir = './'): Promise<FileConfig> {
+async function loadTasks(relativeTasksDir = './tasks', configDir = './'): Promise<FileConfig> {
   // Read config.yaml file for knex connection
-  const taskDir = absolutePath(tasksDir, configDir);
-  const allFiles = await fs.readdir(taskDir);
+  const tasksDir = absolutePath(relativeTasksDir, configDir);
+  const allFiles = await fs.readdir(tasksDir);
   const tasks: FileConfig = {};
   for (const file of allFiles) {
     if (file.endsWith('.yaml')) {
-      const nsTask = loadYaml(path.resolve(taskDir, file));
+      const nsTask = loadYaml(path.resolve(tasksDir, file));
       Object.assign(tasks, nsTask);
     }
   }
