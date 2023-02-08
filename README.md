@@ -51,8 +51,8 @@ Here's an example of a yaml file:
       - column: "column_name"
         fn: "name.firstName" # use the faker function name.firstName to update the column
       - column: "column_name2"
-        fn: "random.number" # use the faker function random.number to update the column
-        args: [1, 100] # pass in two arguments to the function, the minimum and maximum numbers
+        fn: "mersenne.rand" # use the faker function mersenne.rand to update the column
+        args: [100, 1] # pass in two arguments to the function, the maximum and minimum numbers
       - column: "column_name3"
         fn: "raw" # use the raw sql to update the column
         query: "CONCAT(column_name, ' ', column_name2)"
