@@ -1,3 +1,8 @@
+## 0.2.1
+
+  Fix knex deprecated use of knex() to knex.queryBuilder()
+  Reduce batch to 50 rows at a time
+
 ## 0.2.0
 
   Add bulk updating support with unique values

@@ -79,6 +79,7 @@ export async function doTasks(
   knex: IKnex,
   nsTask: NSConfig
 ) {
+  const start = Date.now();
   for (const [table, task] of Object.entries(nsTask)) {
     const idField = task.id ?? 'id';
 
@@ -102,16 +103,18 @@ export async function doTasks(
           const changed = await query.update(knex.raw((update as RawUpdate).query));
           console.log(`Updated ${changed}x ${table}.${update.column} with raw query`);
         } else {
-          const rows = await query.select(`${idField} as id`)
-          console.log(`Updating ${table}.${update.column} on ${rows.length} rows`);
-          const chunks = chunk(rows, 1000);
-          for (const rowsChunk of chunks) {
-            const q = knex()
+          const allIds = await query.select(`${idField} as id`).pluck('id');
+
+          console.log(`Updating ${table}.${update.column} on ${allIds.length} rows`);
+
+          const chunks = chunk(allIds, 50);
+          for (const ids of chunks) {
+            const q = knex.queryBuilder()
             
-            rowsChunk.forEach(row => {
+            ids.forEach(id => {
               let value = fakeit(update.fn, (update as FakerUpdate).args || []);
               q.union((s) => {
-                s.select(knex.raw('? as id', row.id))
+                s.select(knex.raw('? as id', id))
                   .select(knex.raw('? as sq_value', value));
               });
             });
@@ -119,12 +122,13 @@ export async function doTasks(
             await knex(table).update({
               [update.column]: knex.select('sq_value').from(q.as('sq_join'))
                 .where('sq_join.id', '=', knex.ref(`${table}.${idField}`))
-            });
+            }).where(`${table}.${idField}`, 'in', ids);
           }
         }
       }
     }
   }
+  console.log(`Finished in ${Date.now() - start}ms`);
 }
 
 /**
