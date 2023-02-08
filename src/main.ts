@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import jsYaml from 'js-yaml';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import path from 'path';
 import Knex from 'knex';
 import type {Knex as IKnex} from 'knex';

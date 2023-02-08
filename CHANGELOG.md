@@ -1,7 +1,6 @@
-## 0.1.0
+## 0.1.1 FIRST WORKING VERSION
 
-  FIRST WORKING VERSION
-
+  Fix faker dependency
 ## 0.0.4
 
   Add peer dependencies for knex db clients
