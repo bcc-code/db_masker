@@ -1,3 +1,8 @@
+## 0.2.0
+
+  Add bulk updating support with unique values
+  Chunk updates into 1000 rows at a time
+
 ## 0.1.1 FIRST WORKING VERSION
 
   Fix faker dependency

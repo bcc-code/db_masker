@@ -45,7 +45,8 @@ Here's an example of a yaml file:
 ```yaml
 [namespace]: # A single namespace per config file
   [table]: # The exact table name on which to take actions (Can have multiple tables per namespace)
-    delete: true # remove all data from the table ( can also be a raw where clause eg. "column_name2 > 100" )
+    id: "column_name" #(optional default: id) The column name that is the primary key for the table
+    delete: true #(optional) remove all data from the table ( can also be a raw where clause eg. "column_name2 > 100" )
     updates:
       - column: "column_name"
         fn: "name.firstName" # use the faker function name.firstName to update the column

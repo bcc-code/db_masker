@@ -1,6 +1,7 @@
 import type { Knex as IKnex } from 'knex';
 type NSConfig = {
     [table: string]: {
+        id?: string;
         delete?: boolean | string;
         updates: Array<FakerUpdate | RawUpdate>;
     };

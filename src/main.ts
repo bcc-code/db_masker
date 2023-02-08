@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import path from 'path';
 import Knex from 'knex';
 import type {Knex as IKnex} from 'knex';
+import chunk from 'lodash.chunk';
 
 type DbConfig = {
   tasksDir: string;
@@ -17,6 +18,7 @@ type FileConfig = {
 
 type NSConfig = {
   [table: string]: {
+    id?: string;
     delete?: boolean | string;
     updates: Array<FakerUpdate | RawUpdate>;
   };
@@ -78,6 +80,8 @@ export async function doTasks(
   nsTask: NSConfig
 ) {
   for (const [table, task] of Object.entries(nsTask)) {
+    const idField = task.id ?? 'id';
+
     if (task.delete) {
       // If delete is a string, then it's a where clause
       if (typeof task.delete === 'string') {
@@ -95,10 +99,28 @@ export async function doTasks(
         }
 
         if (update.fn === 'raw') {
-          await query.update(knex.raw((update as RawUpdate).query));
+          const changed = await query.update(knex.raw((update as RawUpdate).query));
+          console.log(`Updated ${changed}x ${table}.${update.column} with raw query`);
         } else {
-          const value = fakeit(update.fn, (update as FakerUpdate).args || []);
-          await query.update(update.column, value);
+          const rows = await query.select(`${idField} as id`)
+          console.log(`Updating ${table}.${update.column} on ${rows.length} rows`);
+          const chunks = chunk(rows, 1000);
+          for (const rowsChunk of chunks) {
+            const q = knex()
+            
+            rowsChunk.forEach(row => {
+              let value = fakeit(update.fn, (update as FakerUpdate).args || []);
+              q.union((s) => {
+                s.select(knex.raw('? as id', row.id))
+                  .select(knex.raw('? as sq_value', value));
+              });
+            });
+
+            await knex(table).update({
+              [update.column]: knex.select('sq_value').from(q.as('sq_join'))
+                .where('sq_join.id', '=', knex.ref(`${table}.${idField}`))
+            });
+          }
         }
       }
     }
