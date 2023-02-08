@@ -43,8 +43,8 @@ The data updates and removals in one or more yaml files in the `tasks` directory
 Here's an example of a yaml file:
 
 ```yaml
-namespace:
-  table:
+[namespace]: # A single namespace per config file
+  [table]: # The exact table name on which to take actions (Can have multiple tables per namespace)
     delete: true # remove all data from the table ( can also be a raw where clause eg. "column_name2 > 100" )
     updates:
       - column: "column_name"
