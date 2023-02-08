@@ -65,7 +65,7 @@ async function loadTasks(relativeTasksDir = './tasks', configDir = './'): Promis
   const tasks: FileConfig = {};
   for (const file of allFiles) {
     if (file.endsWith('.yaml')) {
-      const nsTask = loadYaml(path.resolve(tasksDir, file));
+      const nsTask = await loadYaml(path.resolve(tasksDir, file));
       Object.assign(tasks, nsTask);
     }
   }

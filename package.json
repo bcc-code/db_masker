@@ -1,7 +1,7 @@
 {
   "name": "@bcc-code/db_masker",
   "description": "Db Masker is a library for masking database data by performing updates on the data and optionally removing it. The updates and removals are specified in yaml configuration files.",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "type": "commonjs",
   "main": "./lib/index.js",
   "engines": {
