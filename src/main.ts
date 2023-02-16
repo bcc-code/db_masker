@@ -100,7 +100,7 @@ export async function doTasks(
         }
 
         if (update.fn === 'raw') {
-          const changed = await query.update(knex.raw((update as RawUpdate).query));
+          const changed = await query.update(update.column, knex.raw((update as RawUpdate).query));
           console.log(`Updated ${changed}x ${table}.${update.column} with raw query`);
         } else {
           const allIds = await query.select(`${idField} as id`).pluck('id');
