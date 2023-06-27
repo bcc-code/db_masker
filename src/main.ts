@@ -1,10 +1,10 @@
+import { faker } from '@faker-js/faker';
 import fs from 'fs-extra';
 import jsYaml from 'js-yaml';
-import { faker } from '@faker-js/faker';
-import path from 'path';
+import type { Knex as IKnex } from 'knex';
 import Knex from 'knex';
-import type {Knex as IKnex} from 'knex';
-import chunk from 'lodash.chunk';
+import { chunk } from 'lodash-es';
+import path from 'path';
 
 type DbConfig = {
   tasksDir: string;

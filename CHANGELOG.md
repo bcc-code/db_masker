@@ -1,3 +1,7 @@
+## 0.2.4
+
+  Updated packages to fix security vulnerabilities
+
 ## 0.2.3
 
   Fix raw update
