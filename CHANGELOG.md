@@ -1,3 +1,7 @@
+## 0.2.5
+
+  Change peer dependencies to optional dependencies
+
 ## 0.2.4
 
   Updated packages to fix security vulnerabilities
