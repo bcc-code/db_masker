@@ -1,3 +1,7 @@
+# 0.3.0
+
+  Publish as esm module. If you need to use commonjs, use version 0.2.5 or use `npx db_masker_cjs`
+
 ## 0.2.5
 
   Change peer dependencies to optional dependencies

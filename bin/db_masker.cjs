@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const run = require('../lib/main.js');
+const run = require('../lib/cjs/main.js');
 
 if (process.argv.length != 3) {
     console.log('Usage: db-masker <config.yaml>');

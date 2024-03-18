@@ -1,17 +1,20 @@
 {
   "name": "@bcc-code/db_masker",
   "description": "Db Masker is a library for masking database data by performing updates on the data and optionally removing it. The updates and removals are specified in yaml configuration files.",
-  "version": "0.2.5",
-  "type": "commonjs",
+  "version": "0.3.0",
+  "type": "module",
   "main": "./lib/index.js",
   "engines": {
     "node": ">=16.0.0"
   },
   "bin": {
-    "db_masker": "./bin/db_masker"
+    "db_masker": "./bin/db_masker.js",
+    "db_masker_cjs": "./bin/db_masker.cjs"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "npm run build:esm && npm run build:cjs",
+		"build:esm": "tsc --project ./tsconfig.json --module ES2020 --outDir ./lib/esm",
+		"build:cjs": "tsc --project ./tsconfig.json --module CommonJS --outDir ./lib/cjs"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
