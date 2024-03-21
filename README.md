@@ -5,7 +5,7 @@ Db Masker is a library for masking database data by performing updates on the da
 ### Supports
 
 - Postgres
-- MySQL
+- MySQL / MySQL2
 - SQLite
 
 Install the correspond client library to use the database.
@@ -30,7 +30,7 @@ Alternatively, a js file can be used to configure the database connection. The j
 module.exports = (env) => {
   return {
     tasksDir: "./tasks",
-    client: "pg",
+    client: "pg", // or mysql or sqlite3
     connection: () => {
       // return connection settings
     },
