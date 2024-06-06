@@ -1,4 +1,10 @@
-# 0.3.0
+# 0.4.0
+
+  Updated dependencies:
+    - fakerjs to 8.4.1
+    - knex to 3.1.0
+
+## 0.3.0
 
   Publish as esm module. If you need to use commonjs, use version 0.2.5 or use `npx db_masker_cjs`
 
